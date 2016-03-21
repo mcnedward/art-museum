@@ -5,28 +5,28 @@ import android.graphics.Bitmap;
 
 import com.mcnedward.museum.enums.DirectoryPath;
 import com.mcnedward.museum.listener.BitmapListener;
-import com.mcnedward.museum.view.FolderView;
+import com.mcnedward.museum.view.FolderCard;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Edward on 3/20/2016.
  */
-public class Folder implements BitmapListener {
+public class Folder implements BitmapListener, Serializable {
 
-    private Context context;
     private String name;
     private String path;
+    private List<Folder> childFolders;  // Change this to just children path for Data oriented
     private List<Image> images;
     private DirectoryPath directoryPath;
     private boolean viewLoaded;
     private Bitmap thumbnail;
-    private FolderView folderView;
+    private FolderCard folderCard;
 
-    public Folder(Context context, String path) {
-        this.context = context;
-        directoryPath = DirectoryPath.getDirectoryPathFromPath(path);
+    public Folder(String path) {
+//        directoryPath = DirectoryPath.getDirectoryPathFromPath(path);
         name = DirectoryPath.getFolderNameFromPath(path);
         this.path = directoryPath + name;
         images = new ArrayList<>();
@@ -85,14 +85,14 @@ public class Folder implements BitmapListener {
         this.thumbnail = thumbnail;
     }
 
-    public void setFolderView(FolderView folderView) {
-        this.folderView = folderView;
+    public void setFolderCard(FolderCard folderCard) {
+        this.folderCard = folderCard;
     }
 
     @Override
     public void notifyBitmapLoaded(Bitmap bitmap) {
         thumbnail = bitmap;
-        if (folderView != null)
-            folderView.setImage(bitmap);
+        if (folderCard != null)
+            folderCard.setImage(bitmap);
     }
 }

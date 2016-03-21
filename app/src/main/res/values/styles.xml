@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/FireBrick</item>
         <item name="colorPrimaryDark">@color/DarkRed</item>
         <item name="colorAccent">@color/ForestGreen</item>
+        <item name="android:colorBackground">@color/LightBlack</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

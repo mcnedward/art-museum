@@ -1,4 +1,4 @@
-package com.mcnedward.museum;
+package com.mcnedward.museum.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

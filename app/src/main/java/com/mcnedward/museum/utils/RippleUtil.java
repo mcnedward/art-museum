@@ -1,4 +1,4 @@
-package com.mcnedward.museum;
+package com.mcnedward.museum.utils;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -8,11 +8,13 @@ import android.graphics.drawable.RippleDrawable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 
+import com.mcnedward.museum.R;
+
 /**
  * Created by Edward on 3/20/2016.
  */
-public class Extension {
-    private final static String TAG = "Extension";
+public class RippleUtil {
+    private final static String TAG = "RippleUtil";
 
     /**
      * Creates a new RippleDrawable for a ripple effect on a View.

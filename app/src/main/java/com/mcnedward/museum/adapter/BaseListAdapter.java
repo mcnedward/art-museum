@@ -3,6 +3,7 @@ package com.mcnedward.museum.adapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
@@ -18,10 +19,10 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
     protected LayoutInflater inflater;
 
     public BaseListAdapter(Context context) {
-        this(new ArrayList<T>(), context);
+        this(context, new ArrayList<T>());
     }
 
-    public BaseListAdapter(List<T> groups, Context context) {
+    public BaseListAdapter(Context context, List<T> groups) {
         this.groups = groups;
         this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -47,8 +48,21 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    protected abstract void setOnClickListener(T media, View view);
+    protected abstract View getCustomView(T item);
 
+    protected abstract void setViewContent(T item, View view);
+
+    protected abstract View.OnClickListener getOnClickListener(T item);
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            convertView = getCustomView(getItem(position));
+        }
+        setViewContent(getItem(position), convertView);
+        convertView.setOnClickListener(getOnClickListener(getItem(position)));
+        return convertView;
+    }
     @Override
     public int getCount() {
         return groups.size();

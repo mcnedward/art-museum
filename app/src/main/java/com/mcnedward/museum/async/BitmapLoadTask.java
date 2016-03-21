@@ -1,14 +1,14 @@
-package com.mcnedward.museum.view;
+package com.mcnedward.museum.async;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
-import com.mcnedward.museum.BitmapUtil;
-import com.mcnedward.museum.ImageSize;
+import com.mcnedward.museum.enums.ImageSize;
 import com.mcnedward.museum.enums.ScalingLogic;
-import com.mcnedward.museum.model.Folder;
+import com.mcnedward.museum.listener.BitmapListener;
 import com.mcnedward.museum.model.Image;
+import com.mcnedward.museum.utils.BitmapUtil;
 
 /**
  * Created by Edward on 3/20/2016.
@@ -17,7 +17,7 @@ public class BitmapLoadTask extends AsyncTask<String, Void, Bitmap> {
     private static final String TAG = "BitmapLoadTask";
 
     private Context context;
-    private Folder folder;
+    private BitmapListener listener;
     private Image image;
 
     public BitmapLoadTask(Context context, Image image) {
@@ -25,9 +25,9 @@ public class BitmapLoadTask extends AsyncTask<String, Void, Bitmap> {
         this.image = image;
     }
 
-    public BitmapLoadTask(Context context, Folder folder, Image image) {
+    public BitmapLoadTask(Context context, Image image, BitmapListener listener) {
         this.context = context;
-        this.folder = folder;
+        this.listener = listener;
         this.image = image;
     }
 
@@ -44,8 +44,8 @@ public class BitmapLoadTask extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected void onPostExecute(Bitmap bitmap) {
-        if (folder == null) return;
-        folder.notifyBitmapLoaded(bitmap);
+        if (listener == null) return;
+        listener.notifyBitmapLoaded(bitmap);
     }
 
 }

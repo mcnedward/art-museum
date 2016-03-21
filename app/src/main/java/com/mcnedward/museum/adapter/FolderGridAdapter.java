@@ -1,11 +1,12 @@
 package com.mcnedward.museum.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.mcnedward.museum.model.Folder;
-import com.mcnedward.museum.view.FolderView;
+import com.mcnedward.museum.utils.ActivityUtil;
+import com.mcnedward.museum.view.FolderCard;
 
 /**
  * Created by Edward on 3/17/2016.
@@ -18,17 +19,25 @@ public class FolderGridAdapter extends BaseListAdapter<Folder> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null)
-            convertView = new FolderView(context, getItem(position));
-        FolderView folderView = (FolderView) convertView;
-        folderView.updateFolder(getItem(position));
-        return folderView;
+    protected View getCustomView(Folder folder) {
+        return new FolderCard(context, folder);
     }
 
     @Override
-    protected void setOnClickListener(Folder media, View view) {
+    protected void setViewContent(Folder folder, View view) {
+        FolderCard folderCard = (FolderCard) view;
+        folderCard.updateFolder(folder);
+    }
 
+    @Override
+    protected View.OnClickListener getOnClickListener(final Folder folder) {
+        final Activity activity = (Activity) context;
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityUtil.startFolderActivity(folder, activity);
+            }
+        };
     }
 
 }

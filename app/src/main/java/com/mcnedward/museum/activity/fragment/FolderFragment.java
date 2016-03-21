@@ -24,7 +24,7 @@ public class FolderFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_gallery, container, false);
+        View view = inflater.inflate(R.layout.activity_folder, container, false);
         initialize(view);
         return view;
     }

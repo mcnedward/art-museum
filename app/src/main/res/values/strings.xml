@@ -1,6 +1,4 @@
 <resources>
     <string name="app_name">Museum</string>
     <string name="placeholder">Stuff here!</string>
-
-    <!-- Image View -->
 </resources>

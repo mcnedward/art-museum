@@ -1,18 +1,15 @@
 package com.mcnedward.museum.model;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 
-import com.mcnedward.museum.R;
+import com.mcnedward.museum.utils.DateUtil;
+
+import java.io.Serializable;
 
 /**
  * Created by Edward on 3/17/2016.
  */
-public class Image {
-
-    private Context context;
+public class Image implements Serializable {
 
     private int id;
     private String bucketDisplayName;
@@ -20,15 +17,10 @@ public class Image {
     private String displayName;
     private String title;
     private String path;
-    private Bitmap bitmap;
+    private transient Bitmap bitmap;
 
-    public Image(Context context) {
-        this.context = context;
-    }
-
-    public Image(Context context, int id, String bucketDisplayName, String dateAdded,
+    public Image(int id, String bucketDisplayName, String dateAdded,
                  String displayName, String title, String path) {
-        this(context);
         this.id = id;
         this.bucketDisplayName = bucketDisplayName;
         this.dateAdded = dateAdded;
@@ -84,10 +76,6 @@ public class Image {
 
     public void setPath(String path) {
         this.path = path;
-    }
-
-    public Drawable getDrawable() {
-        return ContextCompat.getDrawable(context, R.drawable.empty);
     }
 
     public Bitmap getBitmap() {

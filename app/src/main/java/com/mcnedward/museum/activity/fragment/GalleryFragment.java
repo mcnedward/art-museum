@@ -13,11 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
-import com.mcnedward.museum.Extension;
-import com.mcnedward.museum.FolderLoader;
+import com.mcnedward.museum.async.FolderLoader;
 import com.mcnedward.museum.R;
 import com.mcnedward.museum.adapter.FolderGridAdapter;
-import com.mcnedward.museum.model.Folder;
 
 import java.util.List;
 import java.util.Random;
@@ -25,15 +23,14 @@ import java.util.Random;
 /**
  * Created by Edward on 3/20/2016.
  */
-public class GalleryFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<List<Folder>> {
+public class GalleryFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<List<com.mcnedward.museum.model.Folder>> {
     private static final String TAG = "GalleryFragment";
     private final int LOADER_ID = new Random().nextInt(1000);
+    public static int SIZE;
 
     private Context context;
     private FolderLoader loader;
     private FolderGridAdapter adapter;
-
-    private int size;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,6 +42,7 @@ public class GalleryFragment extends BaseFragment implements LoaderManager.Loade
     protected void initialize(View view) {
         context = view.getContext();
 
+        initializeWindow();
         initializeLoader();
         initializeGrid(view);
     }
@@ -66,25 +64,25 @@ public class GalleryFragment extends BaseFragment implements LoaderManager.Loade
     }
 
     @Override
-    public Loader<List<Folder>> onCreateLoader(int id, Bundle args) {
+    public Loader<List<com.mcnedward.museum.model.Folder>> onCreateLoader(int id, Bundle args) {
         Log.d(TAG, "### Creating loader ###");
         loader = new FolderLoader(context);
         return loader;
     }
 
     @Override
-    public void onLoadFinished(Loader<List<Folder>> loader, List<Folder> data) {
+    public void onLoadFinished(Loader<List<com.mcnedward.museum.model.Folder>> loader, List<com.mcnedward.museum.model.Folder> data) {
         adapter.addAll(data);
     }
 
     @Override
-    public void onLoaderReset(Loader<List<Folder>> loader) {
+    public void onLoaderReset(Loader<List<com.mcnedward.museum.model.Folder>> loader) {
         adapter.reset();
     }
 
     private void initializeWindow() {
         DisplayMetrics dm = new DisplayMetrics();
         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(dm);
-        size = (dm.widthPixels / 2);
+        SIZE = (dm.widthPixels / 2);
     }
 }

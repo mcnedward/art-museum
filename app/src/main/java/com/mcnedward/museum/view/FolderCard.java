@@ -7,44 +7,37 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.mcnedward.museum.Extension;
-import com.mcnedward.museum.ImageSize;
 import com.mcnedward.museum.R;
-import com.mcnedward.museum.enums.DirectoryPath;
-import com.mcnedward.museum.listener.BitmapListener;
+import com.mcnedward.museum.activity.fragment.GalleryFragment;
 import com.mcnedward.museum.model.Folder;
-import com.mcnedward.museum.model.Image;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.mcnedward.museum.utils.RippleUtil;
 
 /**
  * Created by Edward on 3/20/2016.
  */
-public class FolderView extends LinearLayout {
+public class FolderCard extends LinearLayout {
 
     private Context context;
     private ImageView imgFolderThumbnail;
     private TextView txtFolderTitle;
+    private TextView txtFolderItemCount;
     private Folder folder;
 
-    public FolderView(Context context) {
+    public FolderCard(Context context) {
         super(context);
         initialize(context);
     }
 
-    public FolderView(Context context, Folder folder) {
+    public FolderCard(Context context, Folder folder) {
         super(context);
         initialize(context, folder);
     }
 
-    public FolderView(Context context, AttributeSet attrs) {
+    public FolderCard(Context context, AttributeSet attrs) {
         super(context, attrs);
         initialize(context);
     }
@@ -55,44 +48,36 @@ public class FolderView extends LinearLayout {
 
     private void initialize(Context context, Folder folder) {
         this.context = context;
-        inflate(context, R.layout.view_folder, this);
-        Extension.setRippleBackground(this, context);
+        inflate(context, R.layout.view_folder_card, this);
 
         imgFolderThumbnail = (ImageView) findViewById(R.id.folder_thumbnail);
-        imgFolderThumbnail.setLayoutParams(new LinearLayout.LayoutParams(ImageSize.LARGE.size, ImageSize.LARGE.size));
+        imgFolderThumbnail.setLayoutParams(new LinearLayout.LayoutParams(GalleryFragment.SIZE, GalleryFragment.SIZE));
         imgFolderThumbnail.setBackgroundColor(ContextCompat.getColor(context, R.color.Silver));
         imgFolderThumbnail.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         txtFolderTitle = (TextView) findViewById(R.id.folder_title);
+        txtFolderItemCount = (TextView) findViewById(R.id.folder_item_count);
 
         if (folder != null) {
             updateFolder(folder);
         }
     }
 
-    private void setOnTouch() {
-        setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
-            }
-        });
-    }
-
     public void updateFolder(Folder folder) {
         this.folder = folder;
-        folder.setFolderView(this);
-        setTitle(folder.getName());
+        folder.setFolderCard(this);
+        updateText();
         setImage(folder.getThumbnail());
     }
 
-    public void setTitle(String title) {
-        txtFolderTitle.setText(title);
+    public void updateText() {
+        txtFolderTitle.setText(folder.getName());
+        txtFolderItemCount.setText(String.valueOf(folder.getImages().size()));
     }
 
     public void setImage(Bitmap bitmap) {
         BitmapDrawable bd = new BitmapDrawable(context.getResources(), bitmap);
-        RippleDrawable drawable = Extension.getRippleDrawable(context, bd);
+        RippleDrawable drawable = RippleUtil.getRippleDrawable(context, bd);
         imgFolderThumbnail.setImageDrawable(drawable);
     }
 

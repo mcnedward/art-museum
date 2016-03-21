@@ -1,4 +1,4 @@
-package com.mcnedward.museum;
+package com.mcnedward.museum.enums;
 
 /**
  * Created by Edward on 3/18/2016.
