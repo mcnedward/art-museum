@@ -7,8 +7,6 @@ import android.provider.MediaStore;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
-import com.mcnedward.museum.enums.DirectoryPath;
-import com.mcnedward.museum.model.Directory;
 import com.mcnedward.museum.model.Folder;
 import com.mcnedward.museum.model.Image;
 
@@ -53,7 +51,7 @@ public class FolderLoader extends AsyncTaskLoader<List<Folder>> {
 
 //                Folder folder = null;
 //                for (Folder f : folders) {
-//                    if (f.getName().equals(DirectoryPath.getFolderNameFromPath(path)))
+//                    if (f.getName().equals(DirectoryUtil.getFolderNameFromPath(path)))
 //                        folder = f;
 //                }
 //                if (folder == null) {

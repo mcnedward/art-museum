@@ -1,5 +1,6 @@
 package com.mcnedward.museum.model;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,16 +17,34 @@ public class Directory {
 
     public Directory(String path) {
         this.path = path;
+        name = new File(path).getName();
         childDirectories = new ArrayList<>();
         childItems = new ArrayList<>();
+    }
+
+    public Directory(String path, String parentPath) {
+        this(path);
+        this.parentPath = parentPath;
     }
 
     public void addChildDirectory(Directory directory) {
         childDirectories.add(directory);
     }
 
+    public void addChildItem(String item) {
+        childItems.add(item);
+    }
+
     public boolean hasChildDirectories() {
         return !childDirectories.isEmpty();
+    }
+
+    public Directory getDirectoryFromPath(String directoryPath) {
+        for (Directory d : childDirectories) {
+            if (d.getPath().equals(directoryPath))
+                return d;
+        }
+        return null;
     }
 
     public String getPath() {

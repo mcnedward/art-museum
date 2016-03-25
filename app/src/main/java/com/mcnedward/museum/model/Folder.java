@@ -1,9 +1,8 @@
 package com.mcnedward.museum.model;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 
-import com.mcnedward.museum.enums.DirectoryPath;
+import com.mcnedward.museum.enums.DirectoryUtil;
 import com.mcnedward.museum.listener.BitmapListener;
 import com.mcnedward.museum.view.FolderCard;
 
@@ -20,15 +19,13 @@ public class Folder implements BitmapListener, Serializable {
     private String path;
     private List<Folder> childFolders;  // Change this to just children path for Data oriented
     private List<Image> images;
-    private DirectoryPath directoryPath;
     private boolean viewLoaded;
     private Bitmap thumbnail;
     private FolderCard folderCard;
 
     public Folder(String path) {
-//        directoryPath = DirectoryPath.getDirectoryPathFromPath(path);
-        name = DirectoryPath.getFolderNameFromPath(path);
-        this.path = directoryPath + name;
+//        directoryUtil = DirectoryUtil.getDirectoryBaseFromPath(path);
+        name = DirectoryUtil.getFolderNameFromPath(path);
         images = new ArrayList<>();
         viewLoaded = false;
     }
@@ -59,14 +56,6 @@ public class Folder implements BitmapListener, Serializable {
 
     public void setImages(List<Image> images) {
         this.images = images;
-    }
-
-    public DirectoryPath getDirectoryPath() {
-        return directoryPath;
-    }
-
-    public void setDirectoryPath(DirectoryPath directoryPath) {
-        this.directoryPath = directoryPath;
     }
 
     public boolean isViewLoaded() {

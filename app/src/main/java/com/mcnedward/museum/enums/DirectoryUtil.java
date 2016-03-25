@@ -4,6 +4,8 @@ import com.mcnedward.museum.model.Directory;
 import com.mcnedward.museum.model.Folder;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
@@ -12,20 +14,66 @@ import java.util.regex.Pattern;
 /**
  * Created by Edward on 3/20/2016.
  */
-public class DirectoryPath {
+public class DirectoryUtil {
 
     public enum Base {
         SD_CARD("/storage/sdcard1/"),
         EMULATED("/storage/emulated/0/");
 
         public String path;
+        public Directory directory;
 
         Base(String path) {
             this.path = path;
+            directory = new Directory(path);
         }
     }
 
-    public static Base getDirectoryPathFromPath(String path) {
+    public static Directory getDirectoryFromPath(String path) {
+        if (path != null && !"".equals(path))
+            for (Base b : Base.values())
+                if (path.matches(b.path + ".*"))
+                    return b.directory;
+        return null;
+    }
+
+//    public static Directory handle(String path) {
+//        File file = new File(path);
+//        String topLevelDirectory = findTopLevelDirectory(file);
+//        Directory directory = new Directory(topLevelDirectory);
+//        if (topLevelDirectory.equals(directory.getPath())) {
+//            directory.addChildItem(path);
+//        } else {
+//            Directory itemDirectory = directory.getDirectoryFromPath(topLevelDirectory);
+//            if (itemDirectory != null) {
+//                itemDirectory.addChildItem(path);
+//            } else {
+//                itemDirectory = createDirectory(directory.getPath(), path);
+//                itemDirectory.addChildItem(path);
+//                directory.addChildDirectory(itemDirectory);
+//            }
+//        }
+//        return directory;
+//    }
+
+//    public static String findTopLevelDirectory(File file) {
+//        Holder holder = new Holder();
+//        holder.file = file;
+//        recurse(holder);
+//        return holder.topLevelDirectoryName;
+//    }
+//
+//    public static boolean recurse(Holder holder) {
+//        String parentPath = holder.file.getParent().replace("\\", "/");
+//        if (parentPath.equals("/")) {
+//            holder.topLevelDirectoryName = holder.file.getName();
+//            return true;
+//        }
+//        holder.file = holder.file.getParentFile();
+//        return recurse(holder);
+//    }
+
+    public static Base getDirectoryBaseFromPath(String path) {
         if (path != null && !"".equals(path))
             for (Base b : Base.values())
                 if (path.matches(b.path + ".*"))
@@ -34,7 +82,7 @@ public class DirectoryPath {
     }
 
     public static String getFolderNameFromPath(String path) {
-        String directory = getDirectoryPathFromPath(path).path;
+        String directory = getDirectoryBaseFromPath(path).path;
         Pattern regex = Pattern.compile(String.format("%s(.*?)/.*", directory));
         return regex.matcher(path).replaceAll("$1");
     }
@@ -54,12 +102,13 @@ public class DirectoryPath {
         return null;
     }
 
-    public static boolean handleMediaFile(final String rootPath, final Directory topLevel, String path) {
+    public static boolean handleMediaFile(String rootPath, final Directory topLevel, String path) {
         if (path.equals(topLevel.getPath()))
             return true;
         Directory nextLevel = createDirectory(rootPath, path);
-        if (nextLevel.getPath().equals(topLevel.getPath()))
+        if (nextLevel.getPath().equals(topLevel.getPath())) {
             return true;
+        }
         boolean exists = false;
         for (Directory d : topLevel.getChildDirectories()) {
             if (d.getPath().equals(nextLevel.getPath())) {
@@ -71,28 +120,26 @@ public class DirectoryPath {
         if (!exists) {
             topLevel.addChildDirectory(nextLevel);
         }
-        return handleMediaFile(rootPath, nextLevel, path);
-
-        // Check if next level of directory exists
-//        Directory nextLevel = createDirectory(topLevelDirectory.getPath(), path);
-//
-//        Directory directoryForItem = getDirectoryForItem(topLevelDirectory, getParentPath(path));
-//        if (directoryForItem == null) {
-//            directoryForItem = createDirectory(topLevelDirectory.getPath(), path);
-//            topLevelDirectory.addChildDirectory(directoryForItem);
-//        }
+        rootPath = nextLevel.getPath();
+        if (handleMediaFile(rootPath, nextLevel, path)) {
+            if (new File(path).getParent().replace("\\", "/").equals(nextLevel.getPath())) {
+                nextLevel.addChildItem(path);
+            }
+            return true;
+        } else
+            return false;
     }
 
     public static Directory createDirectory(String parentPath, String itemPath) {
         Stack<String> pathStack = new Stack<>();
         buildPathStack(parentPath, itemPath, pathStack, false);
-        Directory directory = new Directory(pathStack.pop());
+        Directory directory = new Directory(!pathStack.isEmpty() ? pathStack.pop() : parentPath, parentPath);
         if (!pathStack.isEmpty()) {
             Directory child, parent = directory;
             Iterator<String> iterator = pathStack.iterator();
             while (iterator.hasNext()) {
                 String path = pathStack.pop();
-                child = new Directory(path);
+                child = new Directory(path, parent.getPath());
                 parent.addChildDirectory(child);
                 parent = child;
             }
@@ -105,7 +152,7 @@ public class DirectoryPath {
         if (addToStack)
             pathStack.push(itemPath);
         String parentPath = file.getParent().replace("\\", "/");
-        if (rootPath.equals(parentPath) || pathIsBasePath(parentPath))
+        if (rootPath.equals(parentPath) || "/".equals(parentPath))
             return true;
         return buildPathStack(rootPath, parentPath, pathStack, true);
     }
@@ -145,6 +192,11 @@ public class DirectoryPath {
             if (b.path.equals(path))
                 return true;
         return false;
+    }
+
+    static class Holder {
+        File file;
+        String topLevelDirectoryName = "";
     }
 
 }
