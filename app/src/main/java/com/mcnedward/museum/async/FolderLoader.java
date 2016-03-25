@@ -7,6 +7,8 @@ import android.provider.MediaStore;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
+import com.mcnedward.museum.utils.DirectoryUtil;
+import com.mcnedward.museum.model.Directory;
 import com.mcnedward.museum.model.Folder;
 import com.mcnedward.museum.model.Image;
 
@@ -16,7 +18,7 @@ import java.util.List;
 /**
  * Created by Edward on 3/19/2016.
  */
-public class FolderLoader extends AsyncTaskLoader<List<Folder>> {
+public class FolderLoader extends AsyncTaskLoader<List<Directory>> {
     private static final String TAG = "BitmapLoadTask";
 
     private Context context;
@@ -27,8 +29,9 @@ public class FolderLoader extends AsyncTaskLoader<List<Folder>> {
     }
 
     @Override
-    public List<Folder> loadInBackground() {
+    public List<Directory> loadInBackground() {
         List<Folder> folders = new ArrayList<>();
+        Directory directory = new Directory("/storage");
 
         String[] mediaQueries = new String[]{
                 MediaStore.Images.Media._ID,
@@ -49,18 +52,9 @@ public class FolderLoader extends AsyncTaskLoader<List<Folder>> {
                 String title = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.TITLE));
                 String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
 
-//                Folder folder = null;
-//                for (Folder f : folders) {
-//                    if (f.getName().equals(DirectoryUtil.getFolderNameFromPath(path)))
-//                        folder = f;
-//                }
-//                if (folder == null) {
-//                    folder = new Folder(context, path);
-//                    folders.add(folder);
-//                }
-
                 Image image = new Image(id, bucketDisplayName, dateAdded, displayName, title, path);
-//                folder.addImage(image);
+
+                DirectoryUtil.handleMediaFile(directory.getPath(), directory, image);
                 Log.d(TAG, image.getPath());
             }
             cursor.close();
@@ -69,14 +63,26 @@ public class FolderLoader extends AsyncTaskLoader<List<Folder>> {
         }
 
         // First load folder thumbnails
-        for (com.mcnedward.museum.model.Folder folder : folders) {
+        for (Folder folder : folders) {
             List<Image> images = folder.getImages();
             if (images.isEmpty()) continue;
             Image image = images.get(0);
             new BitmapLoadTask(context, image, folder).execute();
         }
 
-        return folders;
+        List<Directory> directories = new ArrayList<>();
+        getChildDirectories(directory, directories);
+
+        return directories;
+    }
+
+    private void getChildDirectories(Directory directory, List<Directory> directories) {
+        for (Directory d : directory.getChildDirectories()) {
+            if (DirectoryUtil.pathIsBasePath(d.getPath())) {
+                directories.addAll(d.getChildDirectories());
+            } else
+                getChildDirectories(d, directories);
+        }
     }
 
 }

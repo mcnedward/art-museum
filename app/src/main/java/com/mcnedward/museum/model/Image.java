@@ -2,8 +2,6 @@ package com.mcnedward.museum.model;
 
 import android.graphics.Bitmap;
 
-import com.mcnedward.museum.utils.DateUtil;
-
 import java.io.Serializable;
 
 /**
@@ -18,6 +16,10 @@ public class Image implements Serializable {
     private String title;
     private String path;
     private transient Bitmap bitmap;
+
+    public Image(String path) {
+        this.path = path;
+    }
 
     public Image(int id, String bucketDisplayName, String dateAdded,
                  String displayName, String title, String path) {

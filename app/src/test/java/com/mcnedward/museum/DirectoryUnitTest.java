@@ -1,9 +1,8 @@
 package com.mcnedward.museum;
 
-import android.os.AsyncTask;
-
-import com.mcnedward.museum.enums.DirectoryUtil;
+import com.mcnedward.museum.utils.DirectoryUtil;
 import com.mcnedward.museum.model.Directory;
+import com.mcnedward.museum.model.Image;
 
 import org.junit.Test;
 
@@ -55,11 +54,11 @@ public class DirectoryUnitTest {
 
     @Test
     public void addItemToDirectory_isSuccessful() throws Exception {
-        String item = "/storage/sdcard1/Top/Music/File.png";
-        String music2 = "/storage/sdcard1/Top/Music2/File2.png";
-        String music2Album1 = "/storage/sdcard1/Top/Music2/Album1/File2.png";
-        String music2Album2 = "/storage/sdcard1/Top/Music2/Album2/File2.png";
-        String music2Album3 = "/storage/sdcard1/Top/Music2/Album3/File2.png";
+        Image item = new Image("/storage/sdcard1/Top/Music/File.png");
+        Image music2 = new Image("/storage/sdcard1/Top/Music2/File2.png");
+        Image music2Album1 = new Image("/storage/sdcard1/Top/Music2/Album1/File2.png");
+        Image music2Album2 = new Image("/storage/sdcard1/Top/Music2/Album2/File2.png");
+        Image music2Album3 = new Image("/storage/sdcard1/Top/Music2/Album3/File2.png");
 
         Directory directory = new Directory("/");
 
@@ -89,26 +88,26 @@ public class DirectoryUnitTest {
 
         Directory musicDir = children4.get(0);
         assertNotNull(musicDir);
-        Assert.assertThat(musicDir.getChildItems().isEmpty(), is(false));
+        Assert.assertThat(musicDir.getImages().isEmpty(), is(false));
 
         Directory music2Dir = children4.get(1);
         assertNotNull(music2Dir);
         Assert.assertThat(music2Dir.getChildDirectories().isEmpty(), is(false));
         Assert.assertThat(music2Dir.getChildDirectories().size(), is(3));
-        Assert.assertThat(music2Dir.getChildItems().isEmpty(), is(false));
+        Assert.assertThat(music2Dir.getImages().isEmpty(), is(false));
     }
 
     @Test
     public void getFolderHierarchy_findsAll() throws Exception {
-        String music1 = "/storage/sdcard1/Top/Music/File1.png";
-        String music2 = "/storage/sdcard1/Top/Music2/File2.png";
-        String music2Album1 = "/storage/sdcard1/Top/Music2/Album1/File2.png";
-        String music2Album2 = "/storage/sdcard1/Top/Music2/Album2/File2.png";
-        String music2Album3 = "/storage/sdcard1/Top/Music2/Album3/File2.png";
-        String music3 = "/storage/sdcard1/Top/Music3/File3.png";
-        String music3Album1 = "/storage/sdcard1/Top/Music3/Album1/File3.png";
-        String music3Album2 = "/storage/sdcard1/Top/Music3/Album2/File3.png";
-        String music3Album3 = "/storage/sdcard1/Top/Music3/Album3/File3.png";
+        Image music1 = new Image("/storage/sdcard1/Top/Music/File1.png");
+        Image music2 = new Image("/storage/sdcard1/Top/Music2/File2.png");
+        Image music2Album1 = new Image("/storage/sdcard1/Top/Music2/Album1/File2.png");
+        Image music2Album2 = new Image("/storage/sdcard1/Top/Music2/Album2/File2.png");
+        Image music2Album3 = new Image("/storage/sdcard1/Top/Music2/Album3/File2.png");
+        Image music3 = new Image("/storage/sdcard1/Top/Music3/File3.png");
+        Image music3Album1 = new Image("/storage/sdcard1/Top/Music3/Album1/File3.png");
+        Image music3Album2 = new Image("/storage/sdcard1/Top/Music3/Album2/File3.png");
+        Image music3Album3 = new Image("/storage/sdcard1/Top/Music3/Album3/File3.png");
 
         Directory topLevel = new Directory("/storage/sdcard1");
         DirectoryUtil.handleMediaFile("/storage/sdcard1/Top", topLevel, music1);

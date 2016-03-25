@@ -16,6 +16,7 @@ import android.widget.GridView;
 import com.mcnedward.museum.async.FolderLoader;
 import com.mcnedward.museum.R;
 import com.mcnedward.museum.adapter.FolderGridAdapter;
+import com.mcnedward.museum.model.Directory;
 
 import java.util.List;
 import java.util.Random;
@@ -23,7 +24,7 @@ import java.util.Random;
 /**
  * Created by Edward on 3/20/2016.
  */
-public class GalleryFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<List<com.mcnedward.museum.model.Folder>> {
+public class GalleryFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<List<Directory>> {
     private static final String TAG = "GalleryFragment";
     private final int LOADER_ID = new Random().nextInt(1000);
     public static int SIZE;
@@ -64,19 +65,19 @@ public class GalleryFragment extends BaseFragment implements LoaderManager.Loade
     }
 
     @Override
-    public Loader<List<com.mcnedward.museum.model.Folder>> onCreateLoader(int id, Bundle args) {
+    public Loader<List<Directory>> onCreateLoader(int id, Bundle args) {
         Log.d(TAG, "### Creating loader ###");
         loader = new FolderLoader(context);
         return loader;
     }
 
     @Override
-    public void onLoadFinished(Loader<List<com.mcnedward.museum.model.Folder>> loader, List<com.mcnedward.museum.model.Folder> data) {
+    public void onLoadFinished(Loader<List<Directory>> loader, List<Directory> data) {
         adapter.addAll(data);
     }
 
     @Override
-    public void onLoaderReset(Loader<List<com.mcnedward.museum.model.Folder>> loader) {
+    public void onLoaderReset(Loader<List<Directory>> loader) {
         adapter.reset();
     }
 

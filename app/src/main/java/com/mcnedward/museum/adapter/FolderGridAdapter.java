@@ -4,38 +4,45 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 
+import com.mcnedward.museum.model.Directory;
 import com.mcnedward.museum.model.Folder;
 import com.mcnedward.museum.utils.ActivityUtil;
 import com.mcnedward.museum.view.FolderCard;
 
+import java.util.List;
+
 /**
  * Created by Edward on 3/17/2016.
  */
-public class FolderGridAdapter extends BaseListAdapter<Folder> {
+public class FolderGridAdapter extends BaseListAdapter<Directory> {
     private static final String TAG = "FolderGridAdapter";
 
     public FolderGridAdapter(Context context) {
         super(context);
     }
 
-    @Override
-    protected View getCustomView(Folder folder) {
-        return new FolderCard(context, folder);
+    public FolderGridAdapter(Context context, List<Directory> directoryList) {
+        super(context, directoryList);
     }
 
     @Override
-    protected void setViewContent(Folder folder, View view) {
+    protected View getCustomView(Directory directory) {
+        return new FolderCard(context, directory);
+    }
+
+    @Override
+    protected void setViewContent(Directory directory, View view) {
         FolderCard folderCard = (FolderCard) view;
-        folderCard.updateFolder(folder);
+        folderCard.updateFolder(directory);
     }
 
     @Override
-    protected View.OnClickListener getOnClickListener(final Folder folder) {
+    protected View.OnClickListener getOnClickListener(final Directory directory) {
         final Activity activity = (Activity) context;
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityUtil.startFolderActivity(folder, activity);
+                ActivityUtil.startFolderActivity(directory, activity);
             }
         };
     }

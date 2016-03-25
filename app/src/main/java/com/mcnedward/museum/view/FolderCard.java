@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.mcnedward.museum.R;
 import com.mcnedward.museum.activity.fragment.GalleryFragment;
-import com.mcnedward.museum.model.Folder;
+import com.mcnedward.museum.model.Directory;
 import com.mcnedward.museum.utils.RippleUtil;
 
 /**
@@ -25,14 +25,14 @@ public class FolderCard extends LinearLayout {
     private ImageView imgFolderThumbnail;
     private TextView txtFolderTitle;
     private TextView txtFolderItemCount;
-    private Folder folder;
+    private Directory folder;
 
     public FolderCard(Context context) {
         super(context);
         initialize(context);
     }
 
-    public FolderCard(Context context, Folder folder) {
+    public FolderCard(Context context, Directory folder) {
         super(context);
         initialize(context, folder);
     }
@@ -46,7 +46,7 @@ public class FolderCard extends LinearLayout {
         initialize(context, null);
     }
 
-    private void initialize(Context context, Folder folder) {
+    private void initialize(Context context, Directory folder) {
         this.context = context;
         inflate(context, R.layout.view_folder_card, this);
 
@@ -63,7 +63,7 @@ public class FolderCard extends LinearLayout {
         }
     }
 
-    public void updateFolder(Folder folder) {
+    public void updateFolder(Directory folder) {
         this.folder = folder;
         folder.setFolderCard(this);
         updateText();

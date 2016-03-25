@@ -1,10 +1,14 @@
 package com.mcnedward.museum.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import com.mcnedward.museum.listener.BitmapListener;
+import com.mcnedward.museum.model.IMedia;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +16,7 @@ import java.util.List;
 /**
  * Created by Edward on 3/17/2016.
  */
-public abstract class BaseListAdapter<T> extends BaseAdapter {
+public abstract class BaseListAdapter<T> extends BaseAdapter implements BitmapListener {
 
     protected List<T> groups;
     protected Context context;
@@ -76,5 +80,10 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    @Override
+    public void notifyBitmapLoaded(Bitmap bitmap) {
+        notifyDataSetChanged();
     }
 }
