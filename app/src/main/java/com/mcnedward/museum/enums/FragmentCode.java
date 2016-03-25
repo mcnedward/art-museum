@@ -4,7 +4,8 @@ package com.mcnedward.museum.enums;
  * Created by Edward on 3/20/2016.
  */
 public enum FragmentCode {
-    GALLERY(1, "Gallery");
+    GALLERY(1, "Gallery"),
+    FOLDER(2, "Folder");
 
     public int id;
     public String title;

@@ -27,7 +27,6 @@
         android:name="com.mcnedward.museum.activity.fragment.GalleryFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="5dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:layout="@layout/activity_folder" />
 

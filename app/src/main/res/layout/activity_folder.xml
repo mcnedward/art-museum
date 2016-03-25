@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activity.FolderActivity">
+    tools:context=".activity.FolderActivity"
+    android:orientation="vertical">
+
+    <GridView
+        android:id="@+id/grid_folders"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:horizontalSpacing="2dp"
+        android:verticalSpacing="2dp"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth" />
 
     <GridView
         android:id="@+id/grid_images"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/grid_folders"
         android:columnWidth="90dp"
         android:gravity="center"
         android:horizontalSpacing="2dp"
@@ -18,4 +32,4 @@
         android:stretchMode="columnWidth" />
 
 
-</LinearLayout>
+</RelativeLayout>

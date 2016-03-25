@@ -21,10 +21,13 @@ import com.mcnedward.museum.utils.RippleUtil;
  */
 public class FolderCard extends LinearLayout {
 
+    public static int HEIGHT;
+
     private Context context;
     private ImageView imgFolderThumbnail;
     private TextView txtFolderTitle;
     private TextView txtFolderItemCount;
+    private TextView txtFolderDirectoryCount;
     private Directory folder;
 
     public FolderCard(Context context) {
@@ -57,6 +60,7 @@ public class FolderCard extends LinearLayout {
 
         txtFolderTitle = (TextView) findViewById(R.id.folder_title);
         txtFolderItemCount = (TextView) findViewById(R.id.folder_item_count);
+        txtFolderDirectoryCount = (TextView) findViewById(R.id.folder_directory_count);
 
         if (folder != null) {
             updateFolder(folder);
@@ -73,6 +77,7 @@ public class FolderCard extends LinearLayout {
     public void updateText() {
         txtFolderTitle.setText(folder.getName());
         txtFolderItemCount.setText(String.valueOf(folder.getImages().size()));
+        txtFolderDirectoryCount.setText(String.valueOf(folder.getChildDirectories().size()));
     }
 
     public void setImage(Bitmap bitmap) {

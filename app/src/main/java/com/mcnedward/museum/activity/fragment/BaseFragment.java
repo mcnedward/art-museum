@@ -13,6 +13,8 @@ public class BaseFragment extends Fragment {
         switch (code) {
             case GALLERY:
                 return new GalleryFragment();
+            case FOLDER:
+                return new FolderFragment();
         }
         return null;
     }

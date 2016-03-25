@@ -5,7 +5,6 @@ import android.content.Context;
 import android.view.View;
 
 import com.mcnedward.museum.model.Directory;
-import com.mcnedward.museum.model.Folder;
 import com.mcnedward.museum.utils.ActivityUtil;
 import com.mcnedward.museum.view.FolderCard;
 
@@ -19,10 +18,6 @@ public class FolderGridAdapter extends BaseListAdapter<Directory> {
 
     public FolderGridAdapter(Context context) {
         super(context);
-    }
-
-    public FolderGridAdapter(Context context, List<Directory> directoryList) {
-        super(context, directoryList);
     }
 
     @Override

@@ -30,6 +30,7 @@ public class GalleryFragment extends BaseFragment implements LoaderManager.Loade
     public static int SIZE;
 
     private Context context;
+    private GridView gridView;
     private FolderLoader loader;
     private FolderGridAdapter adapter;
 
@@ -49,7 +50,7 @@ public class GalleryFragment extends BaseFragment implements LoaderManager.Loade
     }
 
     private void initializeGrid(View view) {
-        GridView gridView = (GridView) view.findViewById(R.id.grid_images);
+        gridView = (GridView) view.findViewById(R.id.grid_images);
         adapter = new FolderGridAdapter(context);
         gridView.setAdapter(adapter);
         gridView.setGravity(Gravity.CENTER);

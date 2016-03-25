@@ -73,6 +73,8 @@ public class FolderLoader extends AsyncTaskLoader<List<Directory>> {
         List<Directory> directories = new ArrayList<>();
         getChildDirectories(directory, directories);
 
+        DirectoryUtil.startThumbnailLoading(context, directories);
+
         return directories;
     }
 
