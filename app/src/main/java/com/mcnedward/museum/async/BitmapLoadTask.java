@@ -10,6 +10,10 @@ import com.mcnedward.museum.listener.BitmapListener;
 import com.mcnedward.museum.model.Image;
 import com.mcnedward.museum.utils.BitmapUtil;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by Edward on 3/20/2016.
  */
@@ -17,17 +21,17 @@ public class BitmapLoadTask extends AsyncTask<String, Void, Bitmap> {
     private static final String TAG = "BitmapLoadTask";
 
     private Context context;
-    private BitmapListener listener;
+    private List<BitmapListener> listeners;
     private Image image;
 
-    public BitmapLoadTask(Context context, Image image) {
+    public BitmapLoadTask(Context context) {
         this.context = context;
-        this.image = image;
+        listeners = new ArrayList<>();
     }
 
-    public BitmapLoadTask(Context context, Image image, BitmapListener listener) {
-        this.context = context;
-        this.listener = listener;
+    public BitmapLoadTask(Context context, Image image, BitmapListener... listeners) {
+        this(context);
+        this.listeners.addAll(Arrays.asList(listeners));
         this.image = image;
     }
 
@@ -44,8 +48,9 @@ public class BitmapLoadTask extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected void onPostExecute(Bitmap bitmap) {
-        if (listener == null) return;
-        listener.notifyBitmapLoaded(bitmap);
+        if (listeners == null || listeners.size() == 0) return;
+        for (BitmapListener listener : listeners)
+            listener.notifyBitmapLoaded(bitmap);
     }
 
 }

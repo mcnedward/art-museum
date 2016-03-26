@@ -82,8 +82,4 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements BitmapLi
         return position;
     }
 
-    @Override
-    public void notifyBitmapLoaded(Bitmap bitmap) {
-        notifyDataSetChanged();
-    }
 }

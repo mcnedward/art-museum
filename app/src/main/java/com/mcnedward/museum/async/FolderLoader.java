@@ -62,14 +62,6 @@ public class FolderLoader extends AsyncTaskLoader<List<Directory>> {
             Log.e(TAG, e.getMessage(), e);
         }
 
-        // First load folder thumbnails
-        for (Folder folder : folders) {
-            List<Image> images = folder.getImages();
-            if (images.isEmpty()) continue;
-            Image image = images.get(0);
-            new BitmapLoadTask(context, image, folder).execute();
-        }
-
         List<Directory> directories = new ArrayList<>();
         getChildDirectories(directory, directories);
 

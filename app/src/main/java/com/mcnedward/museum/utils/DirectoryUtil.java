@@ -1,8 +1,10 @@
 package com.mcnedward.museum.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.mcnedward.museum.async.BitmapLoadTask;
+import com.mcnedward.museum.listener.BitmapListener;
 import com.mcnedward.museum.model.Directory;
 import com.mcnedward.museum.model.Folder;
 import com.mcnedward.museum.model.Image;
@@ -102,21 +104,26 @@ public class DirectoryUtil {
         return buildPathStack(rootPath, parentPath, pathStack, true);
     }
 
-    public static void startThumbnailLoading(final Context context, Directory directory) {
+    public static void startThumbnailLoading(final Context context, final Directory directory) {
         startThumbnailLoading(context, directory.getChildDirectories());
     }
 
-    public static void startThumbnailLoading(final Context context, List<Directory> directories) {
+    public static void startThumbnailLoading(final Context context, final List<Directory> directories) {
         for (Directory d : directories)
             startThumbnailLoading(context, d, d);
     }
 
-    private static void startThumbnailLoading(final Context context, Directory topLevelDirectory, Directory directory) {
+    public static void startThumbnailLoading(final Context context, final List<Directory> directories, final BitmapListener listener) {
+        for (Directory d : directories)
+            startThumbnailLoading(context, d, listener);
+    }
+
+    public static void startThumbnailLoading(final Context context, final Directory directory, final BitmapListener listener) {
         if (directory.getImages().size() > 0) {
             Image image = directory.getImages().get(0);
-            new BitmapLoadTask(context, image, topLevelDirectory).execute();
+            new BitmapLoadTask(context, image, listener).execute();
         } else {
-            startThumbnailLoading(context, topLevelDirectory, directory.getChildDirectories().get(0));
+            startThumbnailLoading(context, directory.getChildDirectories().get(0), listener);
         }
     }
 

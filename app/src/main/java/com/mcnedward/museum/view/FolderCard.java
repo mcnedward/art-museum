@@ -51,6 +51,7 @@ public class FolderCard extends LinearLayout {
 
     private void initialize(Context context, Directory folder) {
         this.context = context;
+        this.folder = folder;
         inflate(context, R.layout.view_folder_card, this);
 
         imgFolderThumbnail = (ImageView) findViewById(R.id.folder_thumbnail);
@@ -68,10 +69,9 @@ public class FolderCard extends LinearLayout {
     }
 
     public void updateFolder(Directory folder) {
-        this.folder = folder;
-        folder.setFolderCard(this);
         updateText();
         setImage(folder.getThumbnail());
+        folder.setFolderCard(this);
     }
 
     public void updateText() {
@@ -81,6 +81,7 @@ public class FolderCard extends LinearLayout {
     }
 
     public void setImage(Bitmap bitmap) {
+        if (bitmap == null) return;
         BitmapDrawable bd = new BitmapDrawable(context.getResources(), bitmap);
         RippleDrawable drawable = RippleUtil.getRippleDrawable(context, bd);
         imgFolderThumbnail.setImageDrawable(drawable);

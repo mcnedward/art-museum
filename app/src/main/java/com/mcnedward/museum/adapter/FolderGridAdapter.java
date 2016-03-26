@@ -2,6 +2,7 @@ package com.mcnedward.museum.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 
 import com.mcnedward.museum.model.Directory;
@@ -18,6 +19,10 @@ public class FolderGridAdapter extends BaseListAdapter<Directory> {
 
     public FolderGridAdapter(Context context) {
         super(context);
+    }
+
+    public FolderGridAdapter(Context context, List<Directory> childDirectories) {
+        super(context, childDirectories);
     }
 
     @Override
@@ -40,6 +45,11 @@ public class FolderGridAdapter extends BaseListAdapter<Directory> {
                 ActivityUtil.startFolderActivity(directory, activity);
             }
         };
+    }
+
+    @Override
+    public void notifyBitmapLoaded(Bitmap bitmap) {
+        notifyDataSetChanged();
     }
 
 }

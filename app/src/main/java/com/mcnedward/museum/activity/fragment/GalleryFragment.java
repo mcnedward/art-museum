@@ -43,7 +43,6 @@ public class GalleryFragment extends BaseFragment implements LoaderManager.Loade
 
     protected void initialize(View view) {
         context = view.getContext();
-
         initializeWindow();
         initializeLoader();
         initializeGrid(view);

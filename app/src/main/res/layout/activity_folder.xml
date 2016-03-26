@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activity.FolderActivity"
-    android:orientation="vertical">
+    tools:context=".activity.FolderActivity">
 
     <GridView
         android:id="@+id/grid_folders"
@@ -23,7 +22,6 @@
         android:id="@+id/grid_images"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/grid_folders"
         android:columnWidth="90dp"
         android:gravity="center"
         android:horizontalSpacing="2dp"

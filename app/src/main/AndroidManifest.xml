@@ -23,8 +23,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.FolderActivity"
-            android:parentActivityName=".activity.MainActivity"/>/>
+        <activity
+            android:name=".activity.FolderActivity"
+            android:parentActivityName=".activity.MainActivity"/>
     </application>
 
 </manifest>
