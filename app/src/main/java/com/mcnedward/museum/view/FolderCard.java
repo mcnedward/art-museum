@@ -69,6 +69,7 @@ public class FolderCard extends LinearLayout {
     }
 
     public void updateFolder(Directory folder) {
+        this.folder = folder;
         updateText();
         setImage(folder.getThumbnail());
         folder.setFolderCard(this);
@@ -76,6 +77,7 @@ public class FolderCard extends LinearLayout {
 
     public void updateText() {
         txtFolderTitle.setText(folder.getName());
+        txtFolderTitle.setSelected(true);
         txtFolderItemCount.setText(String.valueOf(folder.getImages().size()));
         txtFolderDirectoryCount.setText(String.valueOf(folder.getChildDirectories().size()));
     }

@@ -26,7 +26,7 @@ public class FolderGridAdapter extends BaseListAdapter<Directory> {
     }
 
     @Override
-    protected View getCustomView(Directory directory) {
+    protected View createNewView(Directory directory) {
         return new FolderCard(context, directory);
     }
 

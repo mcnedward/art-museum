@@ -27,7 +27,7 @@ public class ImageGridAdapter extends BaseListAdapter<Image> implements BitmapLi
     }
 
     @Override
-    protected View getCustomView(Image image) {
+    protected View createNewView(Image image) {
         return new ImageCard(context, image);
     }
 
