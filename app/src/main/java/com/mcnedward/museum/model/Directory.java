@@ -1,5 +1,9 @@
 package com.mcnedward.museum.model;
 
+import android.content.Context;
+
+import com.mcnedward.museum.listener.BitmapListener;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +49,18 @@ public class Directory extends Media {
                 return d;
         }
         return null;
+    }
+
+    public Image getThumbnailImage() {
+        return getThumbnailImage(this);
+    }
+
+    private Image getThumbnailImage(Directory directory) {
+        List<Image> images = directory.getImages();
+        if (!images.isEmpty()) {
+            return images.get(0);
+        }
+        return getThumbnailImage(directory.getChildDirectories().get(0));
     }
 
     public String getName() {

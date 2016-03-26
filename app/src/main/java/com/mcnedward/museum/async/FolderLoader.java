@@ -7,10 +7,10 @@ import android.provider.MediaStore;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
-import com.mcnedward.museum.utils.DirectoryUtil;
 import com.mcnedward.museum.model.Directory;
 import com.mcnedward.museum.model.Folder;
 import com.mcnedward.museum.model.Image;
+import com.mcnedward.museum.utils.DirectoryUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,8 +64,6 @@ public class FolderLoader extends AsyncTaskLoader<List<Directory>> {
 
         List<Directory> directories = new ArrayList<>();
         getChildDirectories(directory, directories);
-
-        DirectoryUtil.startThumbnailLoading(context, directories);
 
         return directories;
     }

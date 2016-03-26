@@ -15,7 +15,6 @@ public abstract class Media implements IMedia, BitmapListener, Serializable {
     protected transient Bitmap bitmap;
     protected transient MediaCard mediaCard;
 
-
     @Override
     public Bitmap getBitmap() {
         return bitmap;

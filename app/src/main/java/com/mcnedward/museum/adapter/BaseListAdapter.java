@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.mcnedward.museum.listener.BitmapListener;
+import com.mcnedward.museum.utils.BitmapUtil;
+import com.mcnedward.museum.view.MediaCard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,20 +54,30 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements BitmapLi
         notifyDataSetChanged();
     }
 
-    protected abstract View createNewView(T item);
+    protected abstract MediaCard createNewView(T item);
 
-    protected abstract void setViewContent(T item, View view);
+    protected abstract void setViewContent(T item, MediaCard view);
+
+    protected abstract String getBitmapPathFromItem(T item);
 
     protected abstract View.OnClickListener getOnClickListener(T item);
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        MediaCard mediaCard;
+        T item = getItem(position);
         if (convertView == null) {
-            convertView = createNewView(getItem(position));
+            mediaCard = createNewView(item);
+        } else {
+            mediaCard = (MediaCard) convertView;
         }
-        setViewContent(getItem(position), convertView);
-        convertView.setOnClickListener(getOnClickListener(getItem(position)));
-        return convertView;
+
+        String bitmapPath = getBitmapPathFromItem(item);
+        BitmapUtil.startBitmapLoadTask(context, bitmapPath, mediaCard);
+
+        setViewContent(item, mediaCard);
+        mediaCard.setOnClickListener(getOnClickListener(item));
+        return mediaCard;
     }
 
     @Override

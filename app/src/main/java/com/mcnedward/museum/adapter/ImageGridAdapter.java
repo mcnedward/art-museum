@@ -9,6 +9,7 @@ import com.mcnedward.museum.listener.BitmapListener;
 import com.mcnedward.museum.model.Folder;
 import com.mcnedward.museum.model.Image;
 import com.mcnedward.museum.view.ImageCard;
+import com.mcnedward.museum.view.MediaCard;
 
 import java.util.List;
 
@@ -27,14 +28,19 @@ public class ImageGridAdapter extends BaseListAdapter<Image> implements BitmapLi
     }
 
     @Override
-    protected View createNewView(Image image) {
+    protected MediaCard createNewView(Image image) {
         return new ImageCard(context, image);
     }
 
     @Override
-    protected void setViewContent(Image image, View view) {
-        ImageCard imageCard = (ImageCard) view;
+    protected void setViewContent(Image image, MediaCard mediaCard) {
+        ImageCard imageCard = (ImageCard) mediaCard;
         imageCard.updateItem(image);
+    }
+
+    @Override
+    protected String getBitmapPathFromItem(Image item) {
+        return item.getPath();
     }
 
     @Override

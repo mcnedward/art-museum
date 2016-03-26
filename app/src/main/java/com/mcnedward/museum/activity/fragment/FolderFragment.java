@@ -70,19 +70,12 @@ public class FolderFragment extends BaseFragment {
         folderGridAdapter = new FolderGridAdapter(context);
         gridFolders.setAdapter(folderGridAdapter);
 
-        DirectoryUtil.startThumbnailLoading(context, directory);
         folderGridAdapter.addAll(directory.getChildDirectories());
     }
 
     private void loadImages() {
         imageGridAdapter = new ImageGridAdapter(context, images);
         gridImages.setAdapter(imageGridAdapter);
-        tasks = new ArrayList<>();
-        for (Image image : images) {
-            BitmapLoadTask task = new BitmapLoadTask(context, image, imageGridAdapter);
-            tasks.add(task);
-            task.execute();
-        }
     }
 
     @Override

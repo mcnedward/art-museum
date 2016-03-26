@@ -8,6 +8,7 @@ import android.view.View;
 import com.mcnedward.museum.model.Directory;
 import com.mcnedward.museum.utils.ActivityUtil;
 import com.mcnedward.museum.view.FolderCard;
+import com.mcnedward.museum.view.MediaCard;
 
 import java.util.List;
 
@@ -26,14 +27,19 @@ public class FolderGridAdapter extends BaseListAdapter<Directory> {
     }
 
     @Override
-    protected View createNewView(Directory directory) {
+    protected MediaCard createNewView(Directory directory) {
         return new FolderCard(context, directory);
     }
 
     @Override
-    protected void setViewContent(Directory directory, View view) {
+    protected void setViewContent(Directory directory, MediaCard view) {
         FolderCard folderCard = (FolderCard) view;
         folderCard.updateItem(directory);
+    }
+
+    @Override
+    protected String getBitmapPathFromItem(Directory item) {
+        return item.getThumbnailImage().getPath();
     }
 
     @Override

@@ -7,15 +7,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
+import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 
+import com.mcnedward.museum.R;
 import com.mcnedward.museum.async.BitmapLoadTask;
 import com.mcnedward.museum.enums.ScalingLogic;
-import com.mcnedward.museum.listener.BitmapListener;
-import com.mcnedward.museum.model.Image;
 import com.mcnedward.museum.view.MediaCard;
 
 import java.lang.ref.WeakReference;
@@ -25,23 +24,24 @@ import java.lang.ref.WeakReference;
  */
 public class BitmapUtil {
 
-    public static BitmapLoadTask startBitmapLoadTask(final Context context, Image image, BitmapListener listener) {
-        if (cancelPotentialWork(image, image.getMediaCard())) {
-            final BitmapLoadTask task = new BitmapLoadTask(context, image, listener);
-            final AsyncDrawable drawable = new AsyncDrawable(context.getResources(), image.getBitmap(), task);
-            image.getMediaCard().getImageView().setImageDrawable(drawable);
+    public static BitmapLoadTask startBitmapLoadTask(final Context context, String bitmapPath, MediaCard mediaCard) {
+        if (cancelPotentialWork(bitmapPath, mediaCard)) {
+            final BitmapLoadTask task = new BitmapLoadTask(mediaCard, bitmapPath);
+            final AsyncDrawable drawable = new AsyncDrawable(context, task);
+            mediaCard.getImageView().setImageDrawable(drawable);
             task.execute();
             return task;
         }
         return null;
     }
 
-    public static boolean cancelPotentialWork(Image image, MediaCard mediaCard) {
+    public static boolean cancelPotentialWork(String bitmapPath, MediaCard mediaCard) {
         final BitmapLoadTask task = getBitmapLoadTask(mediaCard.getImageView());
 
         if (task != null) {
-            final BitmapListener listener = task.listener;
-            if (listener == null || listener != image) {
+            final String taskBitmapPath = task.bitmapPath;
+            if (taskBitmapPath.equals("") || bitmapPath != taskBitmapPath) {
+                // Cancel the task
                 task.cancel(true);
             } else {
                 return false;
@@ -50,7 +50,7 @@ public class BitmapUtil {
         return true;
     }
 
-    private static BitmapLoadTask getBitmapLoadTask(ImageView imageView) {
+    public static BitmapLoadTask getBitmapLoadTask(ImageView imageView) {
         if (imageView != null) {
             final Drawable drawable = imageView.getDrawable();
             if (drawable instanceof AsyncDrawable) {
@@ -167,12 +167,12 @@ public class BitmapUtil {
         }
     }
 
-    static class AsyncDrawable extends BitmapDrawable {
+    static class AsyncDrawable extends ColorDrawable {
         private final WeakReference<BitmapLoadTask> bitmapLoadTaskWeakReference;
 
-        public AsyncDrawable(Resources res, Bitmap bitmap, BitmapLoadTask bitmapLoadTask) {
-            super(res, bitmap);
-            bitmapLoadTaskWeakReference = new WeakReference<BitmapLoadTask>(bitmapLoadTask);
+        public AsyncDrawable(Context context, BitmapLoadTask bitmapLoadTask) {
+            super(ContextCompat.getColor(context, R.color.Silver));
+            bitmapLoadTaskWeakReference = new WeakReference<>(bitmapLoadTask);
         }
 
         public BitmapLoadTask getBitmapLoadTask() {

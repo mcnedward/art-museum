@@ -1,19 +1,10 @@
 package com.mcnedward.museum.utils;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-
-import com.mcnedward.museum.async.BitmapLoadTask;
-import com.mcnedward.museum.listener.BitmapListener;
 import com.mcnedward.museum.model.Directory;
-import com.mcnedward.museum.model.Folder;
 import com.mcnedward.museum.model.Image;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
@@ -102,29 +93,6 @@ public class DirectoryUtil {
         if (rootPath.equals(parentPath) || "/".equals(parentPath))
             return true;
         return buildPathStack(rootPath, parentPath, pathStack, true);
-    }
-
-    public static void startThumbnailLoading(final Context context, final Directory directory) {
-        startThumbnailLoading(context, directory.getChildDirectories());
-    }
-
-    public static void startThumbnailLoading(final Context context, final List<Directory> directories) {
-        for (Directory d : directories)
-            startThumbnailLoading(context, d, d);
-    }
-
-    public static void startThumbnailLoading(final Context context, final List<Directory> directories, final BitmapListener listener) {
-        for (Directory d : directories)
-            startThumbnailLoading(context, d, listener);
-    }
-
-    public static void startThumbnailLoading(final Context context, final Directory directory, final BitmapListener listener) {
-        if (directory.getImages().size() > 0) {
-            Image image = directory.getImages().get(0);
-            new BitmapLoadTask(context, image, listener).execute();
-        } else {
-            startThumbnailLoading(context, directory.getChildDirectories().get(0), listener);
-        }
     }
 
     public static boolean pathIsBasePath(String path) {
