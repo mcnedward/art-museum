@@ -1,6 +1,7 @@
 package com.mcnedward.museum.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements BitmapLi
     }
 
     public void addAll(List<T> items) {
+        if (items == null) return;
         groups.addAll(items);
         notifyDataSetChanged();
     }
@@ -60,8 +62,6 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements BitmapLi
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = createNewView(getItem(position));
-        } else {
-
         }
         setViewContent(getItem(position), convertView);
         convertView.setOnClickListener(getOnClickListener(getItem(position)));
@@ -83,4 +83,8 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements BitmapLi
         return position;
     }
 
+    @Override
+    public void notifyBitmapLoaded(Bitmap bitmap) {
+        notifyDataSetChanged();
+    }
 }

@@ -20,6 +20,7 @@ import com.mcnedward.museum.async.FolderLoader;
 import com.mcnedward.museum.listener.BitmapListener;
 import com.mcnedward.museum.model.Directory;
 import com.mcnedward.museum.model.Image;
+import com.mcnedward.museum.utils.BitmapUtil;
 import com.mcnedward.museum.utils.DirectoryUtil;
 
 import java.util.ArrayList;
@@ -105,9 +106,9 @@ public class FolderActivity extends AppCompatActivity implements LoaderManager.L
         imageGridAdapter = new ImageGridAdapter(this, images);
         gridImages.setAdapter(imageGridAdapter);
         for (Image image : images) {
-            BitmapLoadTask task = new BitmapLoadTask(this, image, imageGridAdapter);
-            tasks.add(task);
-            task.execute();
+//            BitmapLoadTask task = new BitmapLoadTask(this, image, imageGridAdapter);
+            tasks.add(BitmapUtil.startBitmapLoadTask(this, image, imageGridAdapter));
+//            task.execute();
         }
     }
 

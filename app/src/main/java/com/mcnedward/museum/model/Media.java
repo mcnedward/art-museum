@@ -1,41 +1,43 @@
 package com.mcnedward.museum.model;
 
+import android.graphics.Bitmap;
+
+import com.mcnedward.museum.listener.BitmapListener;
+import com.mcnedward.museum.view.MediaCard;
+
+import java.io.Serializable;
+
 /**
  * Created by Edward on 3/25/2016.
  */
-public class Media {
+public abstract class Media implements IMedia, BitmapListener, Serializable {
 
-    public enum MediaType {
-        DIRECTORY, IMAGE
+    protected transient Bitmap bitmap;
+    protected transient MediaCard mediaCard;
+
+
+    @Override
+    public Bitmap getBitmap() {
+        return bitmap;
     }
 
-    private MediaType mediaType;
-    private Directory directory;
-    private Image image;
-
-    public Media(MediaType mediaType) {
-        this.mediaType = mediaType;
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 
-    public Media(Image image) {
-        this(MediaType.IMAGE);
-        this.image = image;
+    @Override
+    public MediaCard getMediaCard() {
+        return mediaCard;
     }
 
-    public Media(Directory directory) {
-        this(MediaType.DIRECTORY);
-        this.directory = directory;
+    public void setMediaCard(MediaCard mediaCard) {
+        this.mediaCard = mediaCard;
     }
 
-    public MediaType getMediaType() {
-        return mediaType;
-    }
-
-    public Directory getDirectory() {
-        return directory;
-    }
-
-    public Image getImage() {
-        return image;
+    @Override
+    public void notifyBitmapLoaded(Bitmap bitmap) {
+        this.bitmap = bitmap;
+        if (mediaCard != null)
+            mediaCard.setImage(bitmap);
     }
 }

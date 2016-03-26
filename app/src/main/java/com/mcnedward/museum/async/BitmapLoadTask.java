@@ -1,7 +1,9 @@
 package com.mcnedward.museum.async;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 
 import com.mcnedward.museum.enums.ImageSize;
@@ -10,9 +12,7 @@ import com.mcnedward.museum.listener.BitmapListener;
 import com.mcnedward.museum.model.Image;
 import com.mcnedward.museum.utils.BitmapUtil;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.lang.ref.WeakReference;
 
 /**
  * Created by Edward on 3/20/2016.
@@ -21,18 +21,15 @@ public class BitmapLoadTask extends AsyncTask<String, Void, Bitmap> {
     private static final String TAG = "BitmapLoadTask";
 
     private Context context;
-    private List<BitmapListener> listeners;
+    public BitmapListener listener;
     private Image image;
-
-    public BitmapLoadTask(Context context) {
-        this.context = context;
-        listeners = new ArrayList<>();
-    }
+    private final WeakReference<BitmapListener> listenerWeakReference;
 
     public BitmapLoadTask(Context context, Image image, BitmapListener... listeners) {
-        this(context);
-        this.listeners.addAll(Arrays.asList(listeners));
+        this.context = context;
+        this.listener = listeners[0];
         this.image = image;
+        listenerWeakReference = new WeakReference<>(listeners[0]);
     }
 
     @Override
@@ -48,9 +45,10 @@ public class BitmapLoadTask extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected void onPostExecute(Bitmap bitmap) {
-        if (listeners == null || listeners.size() == 0) return;
-        for (BitmapListener listener : listeners)
-            listener.notifyBitmapLoaded(bitmap);
+        if (bitmap == null || listener == null || listenerWeakReference == null) return;
+        final BitmapListener listenerReference = listenerWeakReference.get();
+        if (listenerReference != null && listenerReference == listener)
+            listenerReference.notifyBitmapLoaded(bitmap);
     }
 
 }

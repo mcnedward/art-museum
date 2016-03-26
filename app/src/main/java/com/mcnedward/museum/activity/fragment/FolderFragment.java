@@ -63,9 +63,6 @@ public class FolderFragment extends BaseFragment {
 
     private void initializeGrids(View view) {
         gridFolders = (GridView) view.findViewById(R.id.grid_folders);
-        RelativeLayout.LayoutParams folderLayoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, FolderCard.HEIGHT);
-        gridFolders.setLayoutParams(folderLayoutParams);
-
         gridImages = (GridView) view.findViewById(R.id.grid_images);
     }
 

@@ -34,7 +34,7 @@ public class ImageGridAdapter extends BaseListAdapter<Image> implements BitmapLi
     @Override
     protected void setViewContent(Image image, View view) {
         ImageCard imageCard = (ImageCard) view;
-        imageCard.updateImage(image);
+        imageCard.updateItem(image);
     }
 
     @Override
@@ -45,10 +45,5 @@ public class ImageGridAdapter extends BaseListAdapter<Image> implements BitmapLi
 
             }
         };
-    }
-
-    @Override
-    public void notifyBitmapLoaded(Bitmap bitmap) {
-        notifyDataSetChanged();
     }
 }

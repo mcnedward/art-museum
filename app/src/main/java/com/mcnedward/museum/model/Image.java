@@ -2,12 +2,15 @@ package com.mcnedward.museum.model;
 
 import android.graphics.Bitmap;
 
+import com.mcnedward.museum.listener.BitmapListener;
+import com.mcnedward.museum.view.ImageCard;
+
 import java.io.Serializable;
 
 /**
  * Created by Edward on 3/17/2016.
  */
-public class Image implements Serializable {
+public class Image extends Media {
 
     private int id;
     private String bucketDisplayName;
@@ -15,7 +18,6 @@ public class Image implements Serializable {
     private String displayName;
     private String title;
     private String path;
-    private transient Bitmap bitmap;
 
     public Image(String path) {
         this.path = path;
@@ -30,7 +32,6 @@ public class Image implements Serializable {
         this.title = title;
         this.path = path;
     }
-
 
     public int getId() {
         return id;
@@ -78,14 +79,6 @@ public class Image implements Serializable {
 
     public void setPath(String path) {
         this.path = path;
-    }
-
-    public Bitmap getBitmap() {
-        return bitmap;
-    }
-
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
     }
 
     @Override

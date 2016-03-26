@@ -19,7 +19,6 @@ public class Folder implements BitmapListener, Serializable {
     private String path;
     private List<Directory> childDirectories;  // Change this to just children path for Data oriented
     private List<Image> images;
-    private boolean viewLoaded;
     private Bitmap thumbnail;
     private FolderCard folderCard;
 
@@ -27,7 +26,6 @@ public class Folder implements BitmapListener, Serializable {
         this.path = path;
         name = new File(path).getName();
         images = new ArrayList<>();
-        viewLoaded = false;
     }
 
     public Folder(Directory directory) {
@@ -35,7 +33,6 @@ public class Folder implements BitmapListener, Serializable {
         path = directory.getPath();
         childDirectories = directory.getChildDirectories();
         images = new ArrayList<>();
-        viewLoaded = false;
     }
 
     public void addImage(Image image) {
@@ -58,38 +55,11 @@ public class Folder implements BitmapListener, Serializable {
         this.path = path;
     }
 
-    public List<Image> getImages() {
-        return images;
-    }
-
-    public void setImages(List<Image> images) {
-        this.images = images;
-    }
-
-    public boolean isViewLoaded() {
-        return viewLoaded;
-    }
-
-    public void setViewLoaded(boolean viewLoaded) {
-        this.viewLoaded = viewLoaded;
-    }
-
-    public Bitmap getThumbnail() {
-        return thumbnail;
-    }
-
-    public void setThumbnail(Bitmap thumbnail) {
-        this.thumbnail = thumbnail;
-    }
-
-    public void setFolderCard(FolderCard folderCard) {
-        this.folderCard = folderCard;
-    }
-
     @Override
     public void notifyBitmapLoaded(Bitmap bitmap) {
         thumbnail = bitmap;
-        if (folderCard != null)
+        if (folderCard != null) {
             folderCard.setImage(bitmap);
+        }
     }
 }

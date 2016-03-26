@@ -33,7 +33,7 @@ public class FolderGridAdapter extends BaseListAdapter<Directory> {
     @Override
     protected void setViewContent(Directory directory, View view) {
         FolderCard folderCard = (FolderCard) view;
-        folderCard.updateFolder(directory);
+        folderCard.updateItem(directory);
     }
 
     @Override
@@ -46,10 +46,4 @@ public class FolderGridAdapter extends BaseListAdapter<Directory> {
             }
         };
     }
-
-    @Override
-    public void notifyBitmapLoaded(Bitmap bitmap) {
-        notifyDataSetChanged();
-    }
-
 }
